@@ -1,0 +1,16 @@
+spring:
+  application.name: usersession
+  datasource:
+    url: jdbc:postgresql://localhost:5432/sessiondb
+    username: session_user
+    password: strong_password
+    driver-class-name: org.postgresql.Driver
+
+
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
