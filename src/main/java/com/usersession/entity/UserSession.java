@@ -4,14 +4,19 @@ import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "UserSession")
-public class UserSession {
+@Table(name = "user_details")
+public record UserSession(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column Long userId,
+        @Column Timestamp expiresAt) {}
+/* public class UserSession {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     Long userId;
 
@@ -39,4 +44,4 @@ public class UserSession {
         this.expiresAt = expiresAt;
     }
 
-}
+} */

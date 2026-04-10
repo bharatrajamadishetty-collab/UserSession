@@ -21,15 +21,19 @@ public class ScheduledTask {
         this.userSession = userSession;
     }
 
-    @Scheduled(cron = "0 0 * * * *") // every hour
+    @Scheduled(cron = "*/30 * * * * *") // every 30 seconds
     public synchronized void userSessionExpiry() {
         try {
             log.info("Deleting User Sessions started");
             CompletableFuture<Integer> deletedUsers = CompletableFuture
                     .supplyAsync(() -> userSession.deletedExpiredSessions());
-            log.info("{} User Sessions deleted successfully", deletedUsers);
+            if (deletedUsers.isDone()) {
+                log.info("{} User Sessions deleted successfully", deletedUsers);
+            } else {
+                log.info("{} Failed to delete user sessions", deletedUsers);
+            }
         } catch (Exception e) {
-            log.error("Deleting User Sessions failed", e);
+            log.error("Exception occured while deleting user sessions", e);
         }
     }
 
