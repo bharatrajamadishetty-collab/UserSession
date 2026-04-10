@@ -1,4 +1,4 @@
-package com.usersession.service.utils;
+package com.usersession.utils;
 
 import java.util.concurrent.CompletableFuture;
 
