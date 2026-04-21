@@ -1,13 +1,17 @@
 package com.usersession.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.usersession.entity.UserSession;
 import com.usersession.service.UserSessionService;
 
 @RestController
@@ -21,8 +25,20 @@ public class UserSessionController {
         this.userService = userService;
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<String> getUsers() {
+        log.info("Get all users triggered");
+        try {
+            List<UserSession> users = userService.getUsers();
+            return ResponseEntity.status(HttpStatus.OK).body(users + " Active User Sessions");
+        } catch (Exception e) {
+            log.error("Failed to get all Users", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to get user sessions");
+        }
+    }
+
     @PostMapping("/delete-session")
-    public ResponseEntity<String> postMethodName() {
+    public ResponseEntity<String> deleteUsers() {
         log.info("Delete User Sessions triggered");
         try {
             int count = userService.deletedExpiredSessions();
