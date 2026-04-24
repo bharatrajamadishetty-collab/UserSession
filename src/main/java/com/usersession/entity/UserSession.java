@@ -23,7 +23,7 @@ public class UserSession {
     Long userId;
 
     @Column
-    String username;
+    String userName;
 
     @Column
     Timestamp expiresAt;

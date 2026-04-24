@@ -31,9 +31,16 @@ public class UserSessionService {
     public List<UserSession> getUsers() {
         List<UserSession> users;
         users = Arrays.asList(
-                new UserSession(Long.valueOf(1), "Rajan", new Timestamp(3600)),
-                new UserSession(Long.valueOf(2), "Shoban", new Timestamp(1800)),
-                new UserSession(Long.valueOf(3), "Meenan", new Timestamp(3600)));
+                new UserSession(Long.valueOf(1), "Abhisheik", new Timestamp(3600)),
+                new UserSession(Long.valueOf(2), "Charan", new Timestamp(1800)),
+                new UserSession(Long.valueOf(3), "Tara", new Timestamp(4800)),
+                new UserSession(Long.valueOf(4), "Bharath", new Timestamp(6100)),
+                new UserSession(Long.valueOf(5), "Meena", new Timestamp(6900)),
+                new UserSession(Long.valueOf(6), "Rajan", new Timestamp(8000)),
+                new UserSession(Long.valueOf(7), "Prakruthi", new Timestamp(1300)),
+                new UserSession(Long.valueOf(8), "Suma", new Timestamp(1600)),
+                new UserSession(Long.valueOf(9), "Neyansh", new Timestamp(3000)),
+                new UserSession(Long.valueOf(10), "Keerthi", new Timestamp(6000)));
         return users;
     }
 
@@ -47,6 +54,14 @@ public class UserSessionService {
         int count = usrepo.deleteExpiredSessions(now);
         log.info("Deleted {} expired user sessions", count);
         return count;
+    }
+
+    public List<UserSession> findByUsername(String userName) {
+        List<UserSession> userDetails = getUsers();
+        return userDetails.stream()
+                .filter(user -> user.getUserName().equalsIgnoreCase(userName))
+                .toList();
+
     }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.usersession.entity.UserSession;
@@ -25,6 +26,11 @@ public class UserSessionController {
 
     public UserSessionController(UserSessionService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/search")
+    public List<UserSession> searchUsers(@RequestParam String userName) {
+        return userService.findByUsername(userName);
     }
 
     @GetMapping("/users")
