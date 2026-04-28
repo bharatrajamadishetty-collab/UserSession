@@ -18,7 +18,7 @@ import com.usersession.service.UserSessionService;
 
 @RestController
 @RequestMapping("/v1")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin()
 public class UserSessionController {
     private static final Logger log = LoggerFactory.getLogger(UserSessionController.class);
 
