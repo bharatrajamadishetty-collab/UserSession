@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,17 +47,28 @@ public class UserSessionController {
         }
     }
 
-    @PostMapping("/delete-session")
-    public ResponseEntity<String> deleteUsers() {
+    @DeleteMapping("/delete-session")
+    public ResponseEntity<String> deleteUsers(@RequestParam String expiresAt) {
         log.info("Delete User Sessions triggered");
         try {
-            int count = userService.deletedExpiredSessions();
+            int count = userService.deletedExpiredSessions(expiresAt);
             return ResponseEntity.status(HttpStatus.OK).body(count + "User Sessions deleted");
         } catch (Exception e) {
             log.error("Deleting User Sessions failed", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user sessions");
         }
 
+    }
+
+    @PostMapping("/create-user")
+    public ResponseEntity<String> createUser(@RequestBody UserSession user) {
+        try {
+            userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
+        } catch (Exception e) {
+            log.error("Failed to create user", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create user");
+        }
     }
 
 }

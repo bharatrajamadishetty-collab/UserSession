@@ -1,16 +1,17 @@
 spring:
   application.name: usersession
   datasource:
-    url: jdbc:postgresql://localhost:5432/sessiondb
-    username: session_user
-    password: strong_password
-    driver-class-name: org.postgresql.Driver
-
-
+    url: jdbc:h2:file:/db/h2/demo
+    username: sa
+    password: 
+    driverClassName: org.h2.Driver
 
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
 
 

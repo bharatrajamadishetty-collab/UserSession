@@ -26,7 +26,7 @@ public class ScheduledTask {
         try {
             log.info("Deleting User Sessions started");
             CompletableFuture<Integer> deletedUsers = CompletableFuture
-                    .supplyAsync(() -> userSession.deletedExpiredSessions());
+                    .supplyAsync(() -> userSession.deletedExpiredSessions("1600ms"));
             if (deletedUsers.isDone()) {
                 log.info("{} User Sessions deleted successfully", deletedUsers);
             } else {

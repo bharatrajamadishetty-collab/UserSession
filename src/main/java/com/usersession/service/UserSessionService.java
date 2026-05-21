@@ -1,8 +1,6 @@
 package com.usersession.service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -23,24 +21,18 @@ public class UserSessionService {
 
     private final ScheduledTask task;
 
-    public UserSessionService(UserSessionRepository usrepo, @Lazy ScheduledTask task) { // Lazy loading to avoid circular reference
+    public UserSessionService(UserSessionRepository usrepo, @Lazy ScheduledTask task) { // Lazy loading to avoid
+                                                                                        // circular reference
         this.usrepo = usrepo;
         this.task = task;
     }
 
     public List<UserSession> getUsers() {
-        List<UserSession> users;
-        users = Arrays.asList(
-                new UserSession(Long.valueOf(1), "Abhisheik", new Timestamp(3600)),
-                new UserSession(Long.valueOf(2), "Charan", new Timestamp(1800)),
-                new UserSession(Long.valueOf(3), "Tara", new Timestamp(4800)),
-                new UserSession(Long.valueOf(4), "Bharath", new Timestamp(6100)),
-                new UserSession(Long.valueOf(5), "Meena", new Timestamp(6900)),
-                new UserSession(Long.valueOf(6), "Rajan", new Timestamp(8000)),
-                new UserSession(Long.valueOf(7), "Prakruthi", new Timestamp(1300)),
-                new UserSession(Long.valueOf(8), "Suma", new Timestamp(1600)),
-                new UserSession(Long.valueOf(9), "Neyansh", new Timestamp(3000)),
-                new UserSession(Long.valueOf(10), "Keerthi", new Timestamp(6000)));
+        List<UserSession> users = new ArrayList<>();
+        users.add(new UserSession(Long.valueOf(11), "Suma", "2600ms"));
+        users.add(new UserSession(Long.valueOf(12), "Neyansh", "3600ms"));
+        users.add(new UserSession(Long.valueOf(13), "Bharat", "6500ms"));
+        users.addAll(usrepo.findAll());
         return users;
     }
 
@@ -49,9 +41,8 @@ public class UserSessionService {
     }
 
     @Transactional
-    public int deletedExpiredSessions() {
-        Instant now = Instant.now();
-        int count = usrepo.deleteExpiredSessions(now);
+    public int deletedExpiredSessions(String expiresAt) {
+        int count = usrepo.deleteExpiredSessions(expiresAt);
         log.info("Deleted {} expired user sessions", count);
         return count;
     }
@@ -62,6 +53,11 @@ public class UserSessionService {
                 .filter(user -> user.getUserName().equalsIgnoreCase(userName))
                 .toList();
 
+    }
+
+    @Transactional
+    public void createUser(UserSession user) throws Exception {
+        usrepo.save(user);
     }
 
 }
