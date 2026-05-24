@@ -50,7 +50,7 @@ public class UserSessionService {
     public List<UserSession> findByUsername(String userName) {
         List<UserSession> userDetails = getUsers();
         return userDetails.stream()
-                .filter(user -> user.getUserName().equalsIgnoreCase(userName))
+                .filter(user -> user.getUsername().equalsIgnoreCase(userName))
                 .toList();
 
     }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.usersession.entity.UserSession;
 import com.usersession.service.UserSessionService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/v1")
 @CrossOrigin()
@@ -31,7 +33,7 @@ public class UserSessionController {
     }
 
     @GetMapping("/search")
-    public List<UserSession> searchUsers(@RequestParam String userName) {
+    public List<UserSession> searchUsers(@Valid @RequestParam String userName) {
         return userService.findByUsername(userName);
     }
 
@@ -48,7 +50,7 @@ public class UserSessionController {
     }
 
     @DeleteMapping("/delete-session")
-    public ResponseEntity<String> deleteUsers(@RequestParam String expiresAt) {
+    public ResponseEntity<String> deleteUsers(@Valid @RequestParam String expiresAt) {
         log.info("Delete User Sessions triggered");
         try {
             int count = userService.deletedExpiredSessions(expiresAt);
@@ -61,7 +63,7 @@ public class UserSessionController {
     }
 
     @PostMapping("/create-user")
-    public ResponseEntity<String> createUser(@RequestBody UserSession user) {
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserSession user) {
         try {
             userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
