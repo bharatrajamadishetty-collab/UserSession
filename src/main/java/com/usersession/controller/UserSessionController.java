@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,7 @@ public class UserSessionController {
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete-session")
     public ResponseEntity<String> deleteUsers(@Valid @RequestParam String expiresAt) {
         log.info("Delete User Sessions triggered");
@@ -66,6 +68,7 @@ public class UserSessionController {
 
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @PostMapping("/create-user")
     public ResponseEntity<String> createUser(@Valid @RequestBody UserSession user) throws Exception {
         userService.createUser(user);
