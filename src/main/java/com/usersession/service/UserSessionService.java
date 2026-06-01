@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.usersession.entity.UserSession;
+import com.usersession.exception.ResourceNotFoundException;
 import com.usersession.repository.UserSessionRepository;
 import com.usersession.utils.ScheduledTask;
 
@@ -58,6 +59,11 @@ public class UserSessionService {
     @Transactional
     public void createUser(UserSession user) throws Exception {
         usrepo.save(user);
+    }
+
+    public UserSession getUserById(Long userId) {
+        return usrepo.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
     }
 
 }

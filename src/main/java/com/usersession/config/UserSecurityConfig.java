@@ -26,6 +26,7 @@ public class UserSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v1/search").permitAll()
                         .requestMatchers("/v1/users").permitAll()
+                        .requestMatchers("/v1/user/*").permitAll()
                         .requestMatchers("/v1/**").hasRole("USER")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
